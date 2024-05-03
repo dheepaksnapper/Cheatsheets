@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEnumerable Cheatsheet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    h2, h3 {
+      color: #555;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    th:first-child, td:first-child {
+      background-color: #f9f9f9;
+    }
+
+    .code {
+      font-family: Consolas, monospace;
+      background-color: #f0f0f0;
+      padding: 5px;
+      border-radius: 3px;
+    }
+
+    em {
+      font-style: normal;
+      color: #777;
+    }
+
+    @media print {
+      body {
+        background-color: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>IEnumerable Cheatsheet</h2>
+
+<h3>Filtering</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>Where</td>
+    <td>Filters a sequence of values based on a predicate.</td>
+    <td>
+      <code class="code">numbers.Where(n => n % 2 == 0)</code><br>
+      <em>Gets all even numbers from the sequence.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Sorting</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>OrderBy</td>
+    <td>Sorts the elements of a sequence in ascending order.</td>
+    <td>
+      <code class="code">numbers.OrderBy(n => n)</code><br>
+      <em>Sorts numbers in ascending order.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>OrderByDescending</td>
+    <td>Sorts the elements of a sequence in descending order.</td>
+    <td>
+      <code class="code">numbers.OrderByDescending(n => n)</code><br>
+      <em>Sorts numbers in descending order.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>ThenBy</td>
+    <td>Performs a secondary sort on the elements of a sequence in ascending order.</td>
+    <td>
+      <code class="code">persons.OrderBy(p => p.LastName).ThenBy(p => p.FirstName)</code><br>
+      <em>Sorts persons by last name, then by first name.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>ThenByDescending</td>
+    <td>Performs a secondary sort on the elements of a sequence in descending order.</td>
+    <td>
+      <code class="code">persons.OrderBy(p => p.LastName).ThenByDescending(p => p.FirstName)</code><br>
+      <em>Sorts persons by last name, then by first name in descending order.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Projection</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>Select</td>
+    <td>Projects each element of a sequence into a new form.</td>
+    <td>
+      <code class="code">numbers.Select(n => n * 2)</code><br>
+      <em>Doubles each number in the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>SelectMany</td>
+    <td>Projects each element of a sequence to an IEnumerable&lt;T&gt; and flattens the resulting sequences into one sequence.</td>
+    <td>
+      <code class="code">persons.SelectMany(p => p.PhoneNumbers)</code><br>
+      <em>Flattens phone numbers of persons.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Join Operations</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>Join</td>
+    <td>Correlates the elements of two sequences based on matching keys.</td>
+    <td>
+      <code class="code">students.Join(scores, s => s.ID, sc => sc.StudentID, (s, sc) => new { Name = s.Name, Score = sc.Score })</code><br>
+      <em>Joins students and scores based on student ID.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>GroupJoin</td>
+    <td>Correlates the elements of two sequences based on equality of keys and groups the results.</td>
+    <td>
+      <code class="code">categories.GroupJoin(products, c => c.ID, p => p.CategoryID, (c, prods) => new { Category = c.Name, Products = prods })</code><br>
+      <em>Groups products by category.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Set Operations</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>Distinct</td>
+    <td>Returns distinct elements from a sequence.</td>
+    <td>
+      <code class="code">numbers.Distinct()</code><br>
+      <em>Gets distinct numbers from the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Union</td>
+    <td>Produces the set union of two sequences.</td>
+    <td>
+      <code class="code">numbers1.Union(numbers2)</code><br>
+      <em>Gets the union of two sequences.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Intersect</td>
+    <td>Produces the set intersection of two sequences.</td>
+    <td>
+      <code class="code">numbers1.Intersect(numbers2)</code><br>
+      <em>Gets the intersection of two sequences.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Except</td>
+    <td>Produces the set difference of two sequences.</td>
+    <td>
+      <code class="code">numbers1.Except(numbers2)</code><br>
+      <em>Gets the difference of two sequences.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Aggregation</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>Aggregate</td>
+    <td>Performs a custom aggregation operation on the values in a sequence.</td>
+    <td>
+      <code class="code">numbers.Aggregate((acc, n) => acc + n)</code><br>
+      <em>Calculates the sum of numbers.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Count</td>
+    <td>Returns the number of elements in a sequence.</td>
+    <td>
+      <code class="code">numbers.Count()</code><br>
+      <em>Gets the count of elements in the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Sum</td>
+    <td>Computes the sum of the sequence of numeric values.</td>
+    <td>
+      <code class="code">numbers.Sum()</code><br>
+      <em>Calculates the sum of numbers.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Average</td>
+    <td>Computes the average of the sequence of numeric values.</td>
+    <td>
+      <code class="code">numbers.Average()</code><br>
+      <em>Calculates the average of numbers.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Min</td>
+    <td>Returns the minimum value in a sequence.</td>
+    <td>
+      <code class="code">numbers.Min()</code><br>
+      <em>Gets the minimum value in the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Max</td>
+    <td>Returns the maximum value in a sequence.</td>
+    <td>
+      <code class="code">numbers.Max()</code><br>
+      <em>Gets the maximum value in the sequence.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Quantifiers</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>Any</td>
+    <td>Determines whether any element of a sequence satisfies a condition.</td>
+    <td>
+      <code class="code">numbers.Any(n => n % 2 == 0)</code><br>
+      <em>Checks if any element in the sequence is even.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>All</td>
+    <td>Determines whether all elements of a sequence satisfy a condition.</td>
+    <td>
+      <code class="code">numbers.All(n => n > 0)</code><br>
+      <em>Checks if all elements in the sequence are positive.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Element Operators</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>First</td>
+    <td>Returns the first element of a sequence.</td>
+    <td>
+      <code class="code">numbers.First()</code><br>
+      <em>Gets the first element of the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>FirstOrDefault</td>
+    <td>Returns the first element of a sequence, or a default value if no such element is found.</td>
+    <td>
+      <code class="code">numbers.FirstOrDefault()</code><br>
+      <em>Gets the first element of the sequence or a default value if the sequence is empty.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Last</td>
+    <td>Returns the last element of a sequence.</td>
+    <td>
+      <code class="code">numbers.Last()</code><br>
+      <em>Gets the last element of the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>LastOrDefault</td>
+    <td>Returns the last element of a sequence, or a default value if no such element is found.</td>
+    <td>
+      <code class="code">numbers.LastOrDefault()</code><br>
+      <em>Gets the last element of the sequence or a default value if the sequence is empty.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Single</td>
+    <td>Returns the only element of a sequence that satisfies a specified condition, and throws an exception if more than one such element exists.</td>
+    <td>
+      <code class="code">numbers.Single(n => n == 5)</code><br>
+      <em>Gets the single element of the sequence that equals 5.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>SingleOrDefault</td>
+    <td>Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists.</td>
+    <td>
+      <code class="code">numbers.SingleOrDefault(n => n == 5)</code><br>
+      <em>Gets the single element of the sequence that equals 5 or a default value if the sequence is empty.</em>
+    </td>
+  </tr>
+</table>
+
+<h3>Element Retrieval</h3>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>ElementAt</td>
+    <td>Returns the element at a specified index in a sequence.</td>
+    <td>
+      <code class="code">numbers.ElementAt(3)</code><br>
+      <em>Gets the element at index 3 in the sequence.</em>
+    </td>
+  </tr>
+    <tr>
+    <td>ElementAtOrDefault</td>
+    <td>Returns the element at a specified index in a sequence or a default value if the index is out of range.</td>
+    <td>
+      <code class="code">numbers.ElementAtOrDefault(10)</code><br>
+      <em>Gets the element at index 10 in the sequence or a default value if the index is out of range.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>First</td>
+    <td>Returns the first element of a sequence that satisfies a specified condition.</td>
+    <td>
+      <code class="code">numbers.First(n => n % 2 == 0)</code><br>
+      <em>Gets the first even element in the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>FirstOrDefault</td>
+    <td>Returns the first element of a sequence that satisfies a specified condition or a default value if no such element is found.</td>
+    <td>
+      <code class="code">numbers.FirstOrDefault(n => n % 2 == 0)</code><br>
+      <em>Gets the first even element in the sequence or a default value if the sequence is empty.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>Last</td>
+    <td>Returns the last element of a sequence that satisfies a specified condition.</td>
+    <td>
+      <code class="code">numbers.Last(n => n % 2 == 0)</code><br>
+      <em>Gets the last even element in the sequence.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>LastOrDefault</td>
+    <td>Returns the last element of a sequence that satisfies a specified condition or a default value if no such element is found.</td>
+    <td>
+      <code class="code">numbers.LastOrDefault(n => n % 2 == 0)</code><br>
+      <em>Gets the last even element in the sequence or a default value if the sequence is empty.</em>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
